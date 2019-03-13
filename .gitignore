@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -106,3 +107,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 .idea/
+=======
+.DS_Store
+>>>>>>> a382f2e3900444c1cd82a741327658569b1688d2

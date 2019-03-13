@@ -6,7 +6,7 @@ def softmax(predictions):
     Computes probabilities from scores
 
     Arguments:
-      predictions, np array, shape is either (N) or (N, batch_size) -
+      predictions, np array, shape is either (N) or (batch_size, N) -
         classifier output
 
     Returns:
@@ -24,7 +24,7 @@ def cross_entropy_loss(probs, target_index):
     Computes cross-entropy loss
 
     Arguments:
-      probs, np array, shape is either (N) or (N, batch_size) -
+      probs, np array, shape is either (N) or (batch_size, N) -
         probabilities for every class
       target_index: np array of int, shape is (1) or (batch_size) -
         index of the true class for given sample(s)
@@ -40,7 +40,7 @@ def softmax_with_cross_entropy(predictions, target_index):
     including the gradient
 
     Arguments:
-      predictions, np array, shape is either (N) or (N, batch_size) -
+      predictions, np array, shape is either (N) or (batch_size, N) -
         classifier output
       target_index: np array of int, shape is (1) or (batch_size) -
         index of the true class for given sample(s)
