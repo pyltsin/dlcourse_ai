@@ -6,7 +6,7 @@ from layers import FullyConnectedLayer, ReLULayer, softmax_with_cross_entropy, l
 class TwoLayerNet:
     """ Neural network with two fully connected layers """
 
-    def __init__(self, hidden_layer_size, reg):
+    def __init__(self, hidden_layer_size, i, o, reg):
         """
         Initializes the neural network
 
@@ -15,9 +15,14 @@ class TwoLayerNet:
         reg, float - L2 regularization strength
         """
         self.reg = reg
-        # TODO Create necessary layers
-        raise Exception("Not implemented!")
-
+        self.hidden_layer_size = hidden_layer_size
+        self.layers = []        
+        for num_layer in hidden_layer_size:
+            self.layers.append(FullyConnectedLayer(i,i))
+            self.layers.append(ReLULayer())
+        
+        self.layers.append(FullyConnectedLayer(i,o))
+        
     def compute_loss_and_gradients(self, X, y):
         """
         Computes total loss and updates parameter gradients
@@ -32,7 +37,7 @@ class TwoLayerNet:
 
         # After that, implement l2 regularization on all params
         # Hint: use self.params()
-        raise Exception("Not implemented!")
+        
 
         return loss
 
@@ -49,10 +54,10 @@ class TwoLayerNet:
         # TODO: Implement predict
         # Hint: some of the code of the compute_loss_and_gradients
         # can be reused
-        pred = np.zeros(X.shape[0], np.int)
-
-        raise Exception("Not implemented!")
-        return pred
+        for layer in self.layers:
+            X = layer.forward(X)
+        y_pred = np.argmax(X, axis=1)
+        return y_pred
 
     def params(self):
         result = {}
