@@ -53,10 +53,10 @@ def softmax_with_cross_entropy(predictions, target_index):
     f = predictions.copy()
     f -= np.max(f, axis=1).reshape([f.shape[0], 1]) # f becomes [-666, -333, 0]
     p = np.exp(f) / np.sum(np.exp(f), axis=1).reshape([f.shape[0], 1]) # safe to do, gives the correct answer
-  
-    loss = -np.log(p[np.arange(p.shape[0]),target_index])
+    loss_target = p[np.arange(p.shape[0]),target_index]
+    loss = -np.log(loss_target)
     dprediction = p
-    dprediction[:, target_index] = dprediction[:,target_index]-1
+    dprediction[np.arange(p.shape[0]), target_index] = dprediction[np.arange(p.shape[0]),target_index]-1
     dprediction = dprediction / loss.shape[0]
     loss_mean = np.mean(loss)
     return loss_mean, dprediction
