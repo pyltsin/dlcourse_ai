@@ -15,13 +15,12 @@ class TwoLayerNet:
         reg, float - L2 regularization strength
         """
         self.reg = reg
-        self.hidden_layer_size = hidden_layer_size
         self.layers = []        
-        for num_layer in hidden_layer_size:
-            self.layers.append(FullyConnectedLayer(i,i))
+        for num_layer in range(1):
+            self.layers.append(FullyConnectedLayer(i,hidden_layer_size))
             self.layers.append(ReLULayer())
         
-        self.layers.append(FullyConnectedLayer(i,o))
+        self.layers.append(FullyConnectedLayer(hidden_layer_size,o))
         
     def compute_loss_and_gradients(self, X, y):
         """
@@ -37,8 +36,29 @@ class TwoLayerNet:
 
         # After that, implement l2 regularization on all params
         # Hint: use self.params()
+        X_next = X.copy()
+        for layer in self.layers:
+            X_next = layer.forward(X_next)
         
-
+        loss, grad = softmax_with_cross_entropy(X_next, y)
+        
+        loss_l2 = 0
+        for params in self.params():
+            w = self.params()[params]
+            loss_d, grad_d = l2_regularization(w.value, self.reg)
+            loss_l2+=loss_d
+        
+        loss+=loss_l2
+        
+        for layer in reversed(self.layers):
+            grad = layer.backward(grad)
+            grad_l2 = 0
+            for params in layer.params():
+                w = layer.params()[params]
+                loss_d, grad_d = l2_regularization(w.value, self.reg)
+                w.grad+=grad_d
+            grad+=grad_l2
+            
         return loss
 
     def predict(self, X):
@@ -62,8 +82,8 @@ class TwoLayerNet:
     def params(self):
         result = {}
 
-        # TODO Implement aggregating all of the params
-
-        raise Exception("Not implemented!")
+        for layer_num in range(len(self.layers)):
+            for i in self.layers[layer_num].params():
+                result[str(layer_num) + "_" + i] = self.layers[layer_num].params()[i]
 
         return result

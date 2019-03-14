@@ -33,7 +33,7 @@ def softmax_with_cross_entropy(preds, target_index):
       loss, single value - cross-entropy loss
       dprediction, np array same shape as predictions - gradient of predictions by loss value
     """
-    f = predictions.copy()
+    f = preds.copy()
     f -= np.max(f, axis=1).reshape([f.shape[0], 1]) # f becomes [-666, -333, 0]
     p = np.exp(f) / np.sum(np.exp(f), axis=1).reshape([f.shape[0], 1]) # safe to do, gives the correct answer
     loss_target = p[np.arange(p.shape[0]),target_index]

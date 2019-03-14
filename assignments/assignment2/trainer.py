@@ -26,7 +26,7 @@ class Trainer:
     def __init__(self, model, dataset, optim,
                  num_epochs=20,
                  batch_size=20,
-                 learning_rate=1e-3,
+                 learning_rate=1e-2,
                  learning_rate_decay=1.0):
         """
         Initializes the trainer
@@ -99,9 +99,11 @@ class Trainer:
                 # TODO Generate batches based on batch_indices and
                 # use model to generate loss and gradients for all
                 # the params
-
-                raise Exception("Not implemented!")
-
+                x = self.dataset.train_X[batch_indices]
+                y_batch = self.dataset.train_y[batch_indices]
+                
+                loss = self.model.compute_loss_and_gradients(x, y_batch)
+                
                 for param_name, param in self.model.params().items():
                     optimizer = self.optimizers[param_name]
                     param.value = optimizer.update(param.value, param.grad, self.learning_rate)
