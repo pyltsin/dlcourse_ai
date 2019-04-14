@@ -66,6 +66,8 @@ def l2_regularization(W, reg_strength):
     '''
     Computes L2 regularization loss on weights and its gradient
 
+
+
     Arguments:
       W, np array - weights
       reg_strength - float value
